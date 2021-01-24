@@ -2,6 +2,7 @@ import React from 'react';
 import './style.css';
 import Avatar from "@material-ui/core/Avatar";
 import StopRoundedIcon from '@material-ui/icons/StopRounded'
+import DeleteICon from '@material-ui/icons/Delete'
 import ReactTimeAgo from 'react-timeago'
 import {selectImage} from "../../features/appSlice";
 import {useDispatch} from "react-redux";
@@ -23,6 +24,10 @@ const Chat = ({id, username, timestamp, imageUrl, profilePic, read}) => {
             history.push('/chats/view')
         }
     }
+    const deleteChat =()=>{
+        db.collection('posts').doc(id).delete()
+
+    }
     return (
         <div onClick={open} className="chat">
             <Avatar src={profilePic}/>
@@ -33,7 +38,14 @@ const Chat = ({id, username, timestamp, imageUrl, profilePic, read}) => {
                 </p>
             </div>
 
-            {!read && <StopRoundedIcon className="chat__readIcon"/>}
+            {!read ?
+                <StopRoundedIcon className="chat__readIcon"/>
+                :
+                <DeleteICon
+                    className="chat__delete"
+                    onClick={deleteChat}
+                />
+            }
 
         </div>
     );
